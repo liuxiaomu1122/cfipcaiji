@@ -43,6 +43,7 @@ with open('ip.txt', 'w') as file:
         # 根据网站的不同结构找到包含IP地址的元素
         if url == 'https://ip.164746.xyz':
             elements = soup.find_all('tr')
+            
         elif url == 'https://www.wetest.vip/page/cloudflare/address_v4.html':
             elements = soup.find_all('tr')
         elif url == 'https://cf.090227.xyz/':
@@ -51,9 +52,15 @@ with open('ip.txt', 'w') as file:
             elements = soup.find_all('li')
         
         # 遍历所有元素,查找IP地址
+        num = 0 
         for element in elements:
             element_text = element.get_text()
             ip_matches = re.findall(ip_pattern, element_text)
+            if url == 'https://cf.090227.xyz/':
+                num += 1
+                if num > 13:
+                    continue
+
             
             # 如果找到IP地址,则写入文件
             for ip in ip_matches:
